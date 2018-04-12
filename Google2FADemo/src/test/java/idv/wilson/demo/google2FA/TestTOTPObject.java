@@ -3,6 +3,7 @@ package idv.wilson.demo.google2FA;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class TestTOTPObject {
 	public static void main(String[] args) throws IOException {
@@ -24,6 +25,15 @@ public class TestTOTPObject {
 		} finally {
 			stream.close();
 		}
-		System.out.println(tempFile.getAbsolutePath());
+		System.out.println("QRCode:" + tempFile.getAbsolutePath());
+
+		File tempObjFile = File.createTempFile("TOTPObj", ".obj");
+		ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(tempObjFile));
+		try {
+			o.writeObject(object);
+		} finally {
+			stream.close();
+		}
+		System.out.println("TOTPObject:" + tempObjFile.getAbsolutePath());
 	}
 }

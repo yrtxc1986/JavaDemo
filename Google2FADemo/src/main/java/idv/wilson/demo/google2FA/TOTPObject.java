@@ -44,4 +44,8 @@ public class TOTPObject implements Serializable {
 		URI = data.getUrl();
 	}
 
+	public String getSecretAsHex() {
+		return SecretAsHex;
+	}
+
 }

@@ -35,5 +35,7 @@ public class TestTOTPObject {
 			stream.close();
 		}
 		System.out.println("TOTPObject:" + tempObjFile.getAbsolutePath());
+
+		System.out.println("KEY:" + object.getSecretAsHex());
 	}
 }

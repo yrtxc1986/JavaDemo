@@ -8,11 +8,11 @@ import java.io.ObjectInputStream;
 public class TestTOTPValidate {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
-		String FilePath = "C:\\Users\\Wilson\\AppData\\Local\\Temp\\TOTPObj2607850213668270222.obj";
+		String FilePath = "C:\\Users\\Wilson\\AppData\\Local\\Temp\\TOTPObj7696628425651340956.obj";
 		ObjectInputStream o = new ObjectInputStream(new FileInputStream(FilePath));
 
 		TOTPObject object = (TOTPObject) o.readObject();
-		String PIN = "464841";
+		String PIN = "715067";
 
 		System.out.println(object.validate(PIN));
 

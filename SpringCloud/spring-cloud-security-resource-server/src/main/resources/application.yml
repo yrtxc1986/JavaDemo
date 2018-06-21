@@ -1,0 +1,16 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: service-hi
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:8000/uaa/users/current
+    client:
+      client-id: service-hi
+      clientSecret: 123456
+      accessTokenUri: http://localhost:8000/uaa/oauth/token
+      grant-type: client_credentials,password
+      scope: server
+      

@@ -1,10 +1,13 @@
 package idv.wilson.demo.jpa.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +28,12 @@ public class Context {
 	@GeneratedValue
 	Long id;
 	String fileName;
+
+	@Column(insertable = false, updatable = false)
+	private long job_id;
+	@ManyToOne
+	@JoinColumn(name = "job_id")
+	private Job job;
 
 	@Enumerated(EnumType.STRING)
 	Type type;

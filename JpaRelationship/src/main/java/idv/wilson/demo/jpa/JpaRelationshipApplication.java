@@ -43,6 +43,7 @@ public class JpaRelationshipApplication {
 		}
 
 		if (checking.getReferences() != null) {
+			System.out.println("-----referennce-----");
 			checking.getReferences().forEach(p -> {
 				System.out.println(p.getFileName());
 			});
@@ -53,8 +54,10 @@ public class JpaRelationshipApplication {
 	public void run() {
 		jobs.count();
 
-		var job1 = Job.builder().createDate(LocalDateTime.now(clock))
-				.master(Context.builder().fileName("Testing.dwg").build()).build();
+		var job1 = new Job();
+		job1.setStatus(Job.Status.Waiting);
+		job1.setCreateDate(LocalDateTime.now(clock));
+		job1.setMaster(Context.builder().fileName("Testing.dwg").build());
 
 		job1 = jobs.save(job1);
 		printRecord(1);
@@ -69,6 +72,10 @@ public class JpaRelationshipApplication {
 
 		job1 = jobs.save(job1);
 		printRecord(1);
+
+		var job2 = jobs.findById(4l);
+		System.out.println("isEmpty:" + job2.isEmpty());
+		System.out.println("isPresent:" + job2.isPresent());
 
 	}
 

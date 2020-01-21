@@ -19,7 +19,6 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Where;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,12 +28,6 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 public class Job {
-
-	@Builder
-	public Job(LocalDateTime createDate, Context master) {
-		this.createDate = createDate;
-		this.master = master;
-	}
 
 	@Id
 	@GeneratedValue
@@ -47,15 +40,17 @@ public class Job {
 	Status status; // Enum default mapping with order
 
 	@OneToOne(cascade = { CascadeType.ALL })
+	@Where(clause = "type = 'Master'")
 	Context master;
 
 	@OneToOne(cascade = { CascadeType.ALL })
+	@Where(clause = "type = 'Output'")
 	Context output;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY) // OneToMany Default Lazy fetch, Lazy fetch must
-																		// between transactional
+	// Lazy fetch must have between transactional
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY) // OneToMany Default Lazy fetch
 	@Where(clause = "type = 'Reference'")
-	@JoinColumn(name = "Context_Id")
+	@JoinColumn(name = "Job_Id")
 	@Getter(value = AccessLevel.NONE)
 	@Setter(value = AccessLevel.NONE)
 	List<Context> references = new ArrayList<Context>();
@@ -66,6 +61,7 @@ public class Job {
 
 	public void addReference(Context reference) {
 		reference.type = Context.Type.Reference;
+		reference.setJob(this);
 		references.add(reference);
 	}
 
@@ -73,23 +69,20 @@ public class Job {
 		return Collections.unmodifiableList(references);
 	}
 
+	public void setMaster(Context master) {
+		this.master = master;
+		this.master.setType(Context.Type.Master);
+		this.master.setJob(this);
+	}
+
 	public void setOutput(Context output) {
 		this.output = output;
 		this.output.setType(Context.Type.Output);
+		this.output.setJob(this);
 	}
 
 	public enum Status {
 		Waiting, Running, CompletedWithError, Completed
 	}
 
-	public static class JobBuilder {
-		Context master;
-
-		public JobBuilder master(Context master) {
-			this.master = master;
-			master.setType(Context.Type.Master);
-			return this;
-		}
-
-	}
 }

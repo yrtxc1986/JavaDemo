@@ -1,0 +1,41 @@
+:root { 
+	--header-height: 50px; 
+	--footer-height: 50px; 
+	--menu-width: 20%;
+}
+
+body {
+	margin: 0px;
+	display: flex;
+	height: 100vh;
+	flex-direction: column;
+}
+
+header {
+	background-color: red;
+	flex: 0 0 var(- -header-height);
+}
+
+footer {
+	background-color: blue;
+	flex: 0 0 var(- -footer-height);
+}
+
+main {
+	background-color: green;
+	flex-grow: 1;
+	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+}
+
+#menu {
+	background-color: #333;
+	flex: 0 0 var(- -menu-width);
+	overflow-y: scroll;
+}
+
+#context {
+	flex-grow: 1;
+	background-color: #999;
+}

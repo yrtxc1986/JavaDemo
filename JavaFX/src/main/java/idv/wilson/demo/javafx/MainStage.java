@@ -5,22 +5,26 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import idv.wilson.demo.javafx.ui.MainUI;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainStage extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-//		primaryStage.initStyle(StageStyle.UNDECORATED);
+		primaryStage.initStyle(StageStyle.UNDECORATED);
 		primaryStage.setWidth(800);
 		primaryStage.setHeight(600);
 
-		HBox box = new HBox();
+		VBox box = new VBox();
+
+		box.getChildren().addAll(applicationContext.getBean(TitleBar.class), applicationContext.getBean(MainUI.class));
 
 		primaryStage.setScene(new Scene(box));
 		primaryStage.show();
@@ -29,7 +33,7 @@ public class MainStage extends Application {
 
 	private ConfigurableApplicationContext applicationContext;
 
-	private int TOTAL_JOB = 10;
+	private int TOTAL_JOB = 5;
 
 	@Override
 	public void init() throws Exception {
@@ -37,7 +41,7 @@ public class MainStage extends Application {
 		applicationContext = new SpringApplicationBuilder().sources(JavaFxApplication.class).run(args);
 		notifyPreloader(new Preloader.ProgressNotification(3.0 / TOTAL_JOB));
 
-		for (double i = 3; i < 10; i++) {
+		for (double i = 3; i < 5; i++) {
 			// other long run init.
 			TimeUnit.SECONDS.sleep(1);
 			notifyPreloader(new Preloader.ProgressNotification(i / TOTAL_JOB));

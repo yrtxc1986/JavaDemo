@@ -1,12 +1,20 @@
 package idv.wilson.demo;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ServiceWithSecurityContext {
 
+	@PreAuthorize("hasRole('USER')")
 	public String getCurrentUserName() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MyUser user = (MyUser) auth.getPrincipal();
+		System.out.println(user.getUserid());
+		System.out.println(user.getEmail());
+
+		return auth.getName();
 	}
 }
